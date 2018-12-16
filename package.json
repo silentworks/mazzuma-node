@@ -1,5 +1,5 @@
 {
-  "name": "@silentworks/mazzuma-node",
+  "name": "mazzuma-node",
   "description": "A library for interaction with Mazzuma payment gateway",
   "version": "0.1.0",
   "repository": "https://github.com/silentworks/mazzuma-node",

@@ -5,7 +5,7 @@ A library for interaction with Mazzuma payment gateway
 ### Installation
 
 ```bash
-npm install @silentworks/mazzuma-node
+npm install mazzuma-node
 ```
 
 ### Usage
@@ -13,7 +13,7 @@ npm install @silentworks/mazzuma-node
 Making a payment request
 
 ```javascript
-const mazzuma = require('@silentworks/mazzuma-node').mazzuma('api_key');
+const mazzuma = require('mazzuma-node').mazzuma('api_key');
 const requestPayment = mazzuma.create(mazzuma.MTN_TO_AIRTEL);
 
 requestPayment.create({
@@ -28,7 +28,7 @@ requestPayment.create({
 Checking transaction status
 
 ```javascript
-const mazzuma = require('@silentworks/mazzuma-node').mazzuma('api_key');
+const mazzuma = require('mazzuma-node').mazzuma('api_key');
 const status = mazzuma.transactionStatus('transaction_id');
 
 status.then(response => {

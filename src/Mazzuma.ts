@@ -1,70 +1,70 @@
 import { RequestPayment } from './RequestPayment';
+import APIRequest from './api';
+import { AxiosResponse } from 'axios';
+import { ITransactionResponse } from './types';
 
 export class Mazzuma {
     readonly apiKey: string;
-    readonly request?: any;
+    readonly request?: APIRequest;
 
-    static readonly MTN_TO_MTN: string = 'rmtm';
-    static readonly MTN_TO_AIRTEL: string = 'rmta';
-    static readonly MTN_TO_VODAFONE: string = 'rmtv';
-    static readonly MTN_TO_TIGO: string = 'rmtt';
-    static readonly AIRTEL_TO_MTN: string = 'ratm';
-    static readonly AIRTEL_TO_AIRTEL: string = 'rata';
-    static readonly AIRTEL_TO_VODAFONE: string = 'ratv';
-    static readonly AIRTEL_TO_TIGO: string = 'ratt';
-    static readonly TIGO_TO_MTN: string = 'rttm';
-    static readonly TIGO_TO_AIRTEL: string = 'rtta';
-    static readonly TIGO_TO_VODAFONE: string = 'rttv';
-    static readonly TIGO_TO_TIGO: string = 'rttt';
-    static readonly VODAFONE_TO_MTN: string = 'rvtm';
-    static readonly VODAFONE_TO_AIRTEL: string = 'rvta';
-    static readonly VODAFONE_TO_VODAFONE: string = 'rvtv';
-    static readonly VODAFONE_TO_TIGO: string = 'rvtt';
-
-    private flowDirection: string;
+    readonly MTN_TO_MTN: string = 'rmtm';
+    readonly MTN_TO_AIRTEL: string = 'rmta';
+    readonly MTN_TO_VODAFONE: string = 'rmtv';
+    readonly MTN_TO_TIGO: string = 'rmtt';
+    readonly AIRTEL_TO_MTN: string = 'ratm';
+    readonly AIRTEL_TO_AIRTEL: string = 'rata';
+    readonly AIRTEL_TO_VODAFONE: string = 'ratv';
+    readonly AIRTEL_TO_TIGO: string = 'ratt';
+    readonly TIGO_TO_MTN: string = 'rttm';
+    readonly TIGO_TO_AIRTEL: string = 'rtta';
+    readonly TIGO_TO_VODAFONE: string = 'rttv';
+    readonly TIGO_TO_TIGO: string = 'rttt';
+    readonly VODAFONE_TO_MTN: string = 'rvtm';
+    readonly VODAFONE_TO_AIRTEL: string = 'rvta';
+    readonly VODAFONE_TO_VODAFONE: string = 'rvtv';
+    readonly VODAFONE_TO_TIGO: string = 'rvtt';
 
     // create constructor that requires api key
-    constructor(apiKey: string, request?: any) {
+    constructor(apiKey: string, request?: APIRequest) {
         this.apiKey = apiKey;
         this.request = request;
     }
 
     // request a payment
-    create(cashflowDirection: string) {
-        this.flowDirection = cashflowDirection;
+    public create(cashflowDirection: string) {
         const network = this.networkLookup(cashflowDirection);
         return this.newRequestPayment(this.apiKey, cashflowDirection, network, this.request);
     }
 
     // check transaction status
-    transactionStatus(transactionId: string) {
+    async transactionStatus(transactionId: string): Promise<AxiosResponse<ITransactionResponse>> {
         return this.request.transactionStatus(transactionId);
     }
 
     protected networkLookup(flowDirection: string) {
         switch (flowDirection) {
-            case Mazzuma.MTN_TO_MTN:
-            case Mazzuma.MTN_TO_AIRTEL:
-            case Mazzuma.MTN_TO_VODAFONE:
-            case Mazzuma.MTN_TO_TIGO:
+            case this.MTN_TO_MTN:
+            case this.MTN_TO_AIRTEL:
+            case this.MTN_TO_VODAFONE:
+            case this.MTN_TO_TIGO:
                 return 'mtn'
             break;
-            case Mazzuma.AIRTEL_TO_MTN:
-            case Mazzuma.AIRTEL_TO_AIRTEL:
-            case Mazzuma.AIRTEL_TO_VODAFONE:
-            case Mazzuma.AIRTEL_TO_TIGO:
+            case this.AIRTEL_TO_MTN:
+            case this.AIRTEL_TO_AIRTEL:
+            case this.AIRTEL_TO_VODAFONE:
+            case this.AIRTEL_TO_TIGO:
                 return 'airtel'
             break;
-            case Mazzuma.TIGO_TO_MTN:
-            case Mazzuma.TIGO_TO_AIRTEL:
-            case Mazzuma.TIGO_TO_VODAFONE:
-            case Mazzuma.TIGO_TO_TIGO:
+            case this.TIGO_TO_MTN:
+            case this.TIGO_TO_AIRTEL:
+            case this.TIGO_TO_VODAFONE:
+            case this.TIGO_TO_TIGO:
                 return 'tigo'
             break;
-            case Mazzuma.VODAFONE_TO_MTN:
-            case Mazzuma.VODAFONE_TO_AIRTEL:
-            case Mazzuma.VODAFONE_TO_VODAFONE:
-            case Mazzuma.VODAFONE_TO_TIGO:
+            case this.VODAFONE_TO_MTN:
+            case this.VODAFONE_TO_AIRTEL:
+            case this.VODAFONE_TO_VODAFONE:
+            case this.VODAFONE_TO_TIGO:
                 return 'vodafone'
             break;
         }

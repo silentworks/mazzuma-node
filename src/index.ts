@@ -1,6 +1,7 @@
 import { Mazzuma } from './Mazzuma';
-import * as api from './api';
+import APIRequest from './api';
 
-export default function (apiKey: string) {
+export function mazzuma(apiKey: string) {
+    const api = new APIRequest();
     return new Mazzuma(apiKey, api);
 }

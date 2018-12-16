@@ -1,21 +1,38 @@
-import * as rp from "request-promise-native";
+import axios, { AxiosResponse, AxiosPromise } from "axios";
+import { IRealPaymentPayload, ITransactionResponse } from "./types";
 
-const apiBaseUri = 'https://client.teamcyst.com/';
+const BASE_URL = 'https://client.teamcyst.com/';
 
-export function paymentRequest(payload: object) {
-    const options = {
-        uri: `${apiBaseUri}api_call.php`,
-        body: payload,
-    };
-    return rp.post(options).then((response) => response);
-};
+const serialize = (obj: any) =>
+    Object.keys(obj)
+        .map(key => encodeURIComponent(key) + "=" + encodeURIComponent(obj[key]))
+        .join("&");
 
-export function transactionStatus(transactionId: string) {
-    const options = {
-        uri: `${apiBaseUri}checktransaction.php`,
-        qs: {
-            id: transactionId
-        },
-    };
-    return rp.get(options).then((response) => response);
+export default class APIRequest {
+    private request() {
+        return axios.create({
+            baseURL: BASE_URL
+        });
+    }
+
+    async get<T = any>(url: string, options?: any): Promise<AxiosResponse<T>> {
+        return this.request().get<T>(url, { ...options });
+    }
+
+    async post<T = any>(url: string, data?: {}, options?: any): Promise<AxiosResponse<T>> {
+        return this.request().post<T>(url, data, { ...options });
+    }
+
+    async paymentRequest(payload: IRealPaymentPayload): Promise<AxiosResponse<ITransactionResponse>> {
+        const url = `api_call.php`;
+        return this.post<ITransactionResponse>(url, payload);
+    }
+
+    async transactionStatus(transactionId: string) {
+        const data = {
+            orderID: transactionId
+        };
+        const url = `checktransaction.php?${serialize(data)}`;
+        return this.get<ITransactionResponse>(url);
+    }
 }

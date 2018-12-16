@@ -1,34 +1,35 @@
 {
-  "name": "mazzuma-node",
+  "name": "@silentworks/mazzuma-node",
   "description": "A library for interaction with Mazzuma payment gateway",
-  "version": "1.0.0",
-  "repository": "silentworks/mazzuma-node",
+  "version": "0.1.0",
+  "repository": "https://github.com/silentworks/mazzuma-node",
   "main": "dist/mazzuma-node.umd.js",
   "module": "dist/mazzuma-node.esm.js",
-  "types": "types/index.d.ts",
+  "types": "dist/index.d.ts",
   "files": [
-    "dist",
-    "types"
+    "dist"
   ],
+  "scripts": {
+    "build-declarations": "tsc -d && node scripts/move-type-declarations.js",
+    "build": "rollup -c",
+    "test": "jest",
+    "prepublishOnly": "npm test && npm run build"
+  },
+  "dependencies": {
+    "axios": "^0.18.0"
+  },
   "devDependencies": {
     "@types/jest": "^23.1.1",
     "@types/node": "^8.0.53",
-    "@types/request-promise-native": "^1.0.15",
     "glob": "^7.1.2",
     "jest": "^23.1.0",
     "rollup": "^0.52.0",
-    "rollup-plugin-typescript": "^0.8.1",
+    "rollup-plugin-typescript2": "^0.18.1",
     "rollup-plugin-virtual": "^1.0.1",
     "sander": "^0.6.0",
     "ts-jest": "^22.4.6",
     "ts-node": "^3.3.0",
     "typescript": "^2.6.2"
-  },
-  "scripts": {
-    "build-declarations": "tsc -d && node scripts/move-type-declarations.js",
-    "build": "npm run build-declarations && rollup -c",
-    "test": "jest",
-    "prepublishOnly": "npm test && npm run build"
   },
   "jest": {
     "transform": {
@@ -44,9 +45,5 @@
       "node"
     ]
   },
-  "license": "LIL",
-  "dependencies": {
-    "request": "^2.87.0",
-    "request-promise-native": "^1.0.5"
-  }
+  "license": "LIL"
 }

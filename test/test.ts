@@ -11,7 +11,7 @@ describe('Request Payment', () => {
 			recipient_number: '023023203232',
 			sender: '032021210',
 			option: option,
-			apiKey: apiKey
+			apikey: apiKey
 		};
 		const requestPayment = new RequestPayment(apiKey, option, network)
 		expect(requestPayment.mapPayload({

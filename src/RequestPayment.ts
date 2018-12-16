@@ -1,36 +1,23 @@
-interface IPaymentPayload {
-    option?: string;
-    amount?: number;
-    to?: string;
-    from?: string;
-}
-
-interface IRealPaymentPayload {
-    price?: number;
-    network?: string;
-    recipient_number?: string;
-    sender?: string;
-    option?: string;
-    apiKey?: string;
-    token?: string;
-}
-
-interface IRequestPayment {
-    create(payload: IPaymentPayload): any;
-    mapPayload(payload: IPaymentPayload): IRealPaymentPayload;
-}
+import {
+    IRequestPayment,
+    IPaymentPayload,
+    IRealPaymentPayload,
+    ITransactionResponse
+} from "./types";
+import APIRequest from "./api";
+import { AxiosResponse } from "axios";
 
 export class RequestPayment implements IRequestPayment {
     private apiKey: string;
     private option: string;
     private network: string;
-    protected rp?: any;
+    protected apiRequest?: APIRequest;
 
-    constructor(apiKey: string, option: string, network: string, request?: any) {
+    constructor(apiKey: string, option: string, network: string, request?: APIRequest) {
         this.option = option;
         this.apiKey = apiKey;
         this.network = network;
-        this.rp = request;
+        this.apiRequest = request;
     }
 
     create(payload: IPaymentPayload) {
@@ -46,11 +33,11 @@ export class RequestPayment implements IRequestPayment {
             recipient_number: to,
             sender: from,
             option: this.option,
-            apiKey: this.apiKey
+            apikey: this.apiKey
         }
     }
 
-    protected makeRequest(payload: IRealPaymentPayload) {
-        return this.rp.paymentRequest(payload);
+    protected makeRequest(payload: IRealPaymentPayload): Promise<AxiosResponse<ITransactionResponse>> {
+        return this.apiRequest.paymentRequest(payload);
     }
 }

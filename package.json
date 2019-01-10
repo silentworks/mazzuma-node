@@ -23,6 +23,7 @@
     "@types/node": "^8.0.53",
     "glob": "^7.1.2",
     "jest": "^23.1.0",
+    "merge": "^1.2.1",
     "rollup": "^0.52.0",
     "rollup-plugin-typescript2": "^0.18.1",
     "rollup-plugin-virtual": "^1.0.1",
